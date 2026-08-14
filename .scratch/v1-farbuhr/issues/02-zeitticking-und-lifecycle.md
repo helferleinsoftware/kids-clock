@@ -1,7 +1,7 @@
 # 02 — Wann merkt die App, dass ein neuer Abschnitt begonnen hat?
 
 Type: research
-Status: open
+Status: claimed
 Blocked by: —
 Map: [map.md](../map.md)
 
