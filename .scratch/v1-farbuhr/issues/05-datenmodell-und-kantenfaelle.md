@@ -1,7 +1,7 @@
 # 05 — Datenmodell des Plans und seine Kantenfälle
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: —
 Map: [map.md](../map.md)
 
