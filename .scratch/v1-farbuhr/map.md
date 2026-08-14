@@ -70,6 +70,21 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   dunkle Nachttöne am schlechtesten. Rückfallweg wäre
   `reanimated-color-picker` 5.1.2. Gespeichert wird so oder so ein Hex-String,
   ein späterer Wechsel bricht das Datenmodell also nicht.
+- **[01 — Vollbild ohne System-Chrome und Wachhalten](issues/01-vollbild-und-wachhalten.md)**
+  — machbar ohne Fremd-Libraries, aber SDK 56 hat die API-Fläche umgebaut:
+  `<NavigationBar hidden />` statt der entfernten `setBehaviorAsync`-Familie,
+  `expo-status-bar` mit Config-Plugin, `androidNavigationBar` aus der
+  Expo-Config verschwunden. Android-Immersive ist fest auf
+  „Wischen zeigt die Leisten kurz, dann verstecken sie sich wieder"
+  verdrahtet und nicht mehr konfigurierbar; Edge-to-edge ist doppelt
+  erzwungen. Home Indicator über `autoHideHomeIndicator` in expo-router,
+  keine Fremd-Library nötig. Wachhalten ist trivial und hält unbegrenzt.
+  **Zwei Fallen vor dem ersten Build**: ein übriggebliebenes
+  `<StatusBar style="auto" />` aus dem Template macht das Verstecken still
+  wieder rückgängig, und die zwei Wege zum Verstecken der Status Bar
+  verlangen gegensätzliche Werte für
+  `UIViewControllerBasedStatusBarAppearance` — man muss sich für einen
+  entscheiden.
 - **[04 — Welche Zeitwahl-Library?](issues/04-zeitwahl-library.md)** —
   `@react-native-community/datetimepicker` 9.1.0 (von Expo 56 gepinnt), immer
   `mode="time"`: auf Android imperativ als nativer Dialog, auf iOS als
@@ -84,6 +99,10 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
 
 <!-- in-scope fog: real, but not yet sharp enough to ticket -->
 
+- **Status-Bar-Pfad festlegen**: Die zwei Wege zum Verstecken der iOS-Status-Bar
+  verlangen gegensätzliche Werte für `UIViewControllerBasedStatusBarAppearance`,
+  und Expos Prebuild-Template liefert einen davon. Eine kleine, aber echte
+  Entscheidung — wird beim Schreiben der Spec scharf. *(aus Ticket 01)*
 - **App-Identität**: Name, Bundle-ID / Package-Name, Icon, Splash Screen. Klar
   nötig für einen Dev Build, aber es hängt nichts daran, solange die Screens
   nicht stehen.
