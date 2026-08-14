@@ -25,6 +25,13 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   iOS und Android, Auslieferung nur als Dev Build per Kabel.
 - **Zeitlogik ist eine reine Funktion** und wird mit Unit-Tests plus gemockter
   Uhr abgedeckt. Das ist eine Anforderung, keine Option.
+- **Der Expo-56-Unterbau** (aus `bundledNativeModules.json` in `expo@56.0.19`,
+  publiziert 2026-08-06): React Native 0.85.3, Reanimated 4.3.1,
+  Gesture Handler ~2.31.1, Worklets 0.8.3, AsyncStorage 2.2.0,
+  `@react-native-community/slider` 5.2.0. Reanimated 4 heißt **New
+  Architecture only** — Libraries, die daran nicht angepasst sind, fallen
+  raus. Reanimated und Gesture Handler liegen bereits im Default-Template.
+  *(ermittelt in Ticket 03)*
 
 ## Decisions so far
 
@@ -49,6 +56,12 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   den Settings, kein PIN und keine verlängerte Geste. *(Grilling Runde 2)*
 - **Testbarkeit** — Unit-Tests mit gemockter Uhr, kein Debug-Zeitraffer im
   Produkt. *(Grilling Runde 2)*
+- **[03 — Welche Farbwahl-Library?](issues/03-farbwahl-library.md)** — gar keine.
+  Eine selbstgebaute Palette fester Farbfelder gewinnt; ein HSV-Wähler
+  optimiert genau die Gegenrichtung zu dem, was hier gebraucht wird, und trifft
+  dunkle Nachttöne am schlechtesten. Rückfallweg wäre
+  `reanimated-color-picker` 5.1.2. Gespeichert wird so oder so ein Hex-String,
+  ein späterer Wechsel bricht das Datenmodell also nicht.
 
 ## Not yet specified
 
