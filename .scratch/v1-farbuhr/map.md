@@ -32,6 +32,14 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   Architecture only** — Libraries, die daran nicht angepasst sind, fallen
   raus. Reanimated und Gesture Handler liegen bereits im Default-Template.
   *(ermittelt in Ticket 03)*
+- **Vorbehalt zur Recherche**: Die Research-Tickets liefen hinter einem
+  Egress-Proxy, der `docs.expo.dev` und `github.com` blockiert. Die Ergebnisse
+  stützen sich auf npm-Tarballs und `raw.githubusercontent.com` — also auf
+  ausgelieferten Code, nicht auf Dokumentation. **Issue-Tracker konnten nicht
+  eingesehen werden**, offene Bugs sind daher nur dort erfasst, wo sie zufällig
+  auffindbar waren. Nichts wurde auf einem Gerät ausgeführt. Jede
+  Ticket-Antwort hat einen Abschnitt „Nicht verifiziert" — vor der
+  Implementierung lesen.
 
 ## Decisions so far
 
@@ -62,6 +70,15 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   dunkle Nachttöne am schlechtesten. Rückfallweg wäre
   `reanimated-color-picker` 5.1.2. Gespeichert wird so oder so ein Hex-String,
   ein späterer Wechsel bricht das Datenmodell also nicht.
+- **[04 — Welche Zeitwahl-Library?](issues/04-zeitwahl-library.md)** —
+  `@react-native-community/datetimepicker` 9.1.0 (von Expo 56 gepinnt), immer
+  `mode="time"`: auf Android imperativ als nativer Dialog, auf iOS als
+  eingebettete Zeit-Kachel. Zweite Wahl `@expo/ui/community/datetime-picker`,
+  falls Ticket 06 einen **inline** eingebetteten Wähler auf Android oder
+  Material-3-Optik will — der Umstieg ist ein Import und ein paar Prop-Namen,
+  die Entscheidung darf bis nach dem Prototyp warten. Wichtig für Ticket 05:
+  der Wähler liefert technisch ein volles `Date`, gespeichert werden trotzdem
+  nur Stunde und Minute.
 
 ## Not yet specified
 
