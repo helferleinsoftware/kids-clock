@@ -85,6 +85,19 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   verlangen gegensätzliche Werte für
   `UIViewControllerBasedStatusBarAppearance` — man muss sich für einen
   entscheiden.
+- **[02 — Wann merkt die App den Abschnittswechsel?](issues/02-zeitticking-und-lifecycle.md)**
+  — **pollen und zustandslos neu rechnen, nie ein Timeout auf die Startzeit.**
+  Die reine Funktion nimmt eine Minute des Tages (`0..1439`) statt eines
+  `Date` und kennt weder Zeitzone noch Sommerzeit; ein kurzer,
+  selbst-neu-geplanter Timeout auf die nächste volle Minute rechnet jedes Mal
+  komplett neu, `AppState → active` rechnet sofort neu. Der exakte Timeout
+  scheidet aus, weil iOS Timer gegen die Wanduhr und Android gegen eine
+  monotone Uhr rechnet — derselbe Code wäre auf beiden Plattformen
+  *unterschiedlich* falsch, und an der Frühjahrsumstellung um exakt eine
+  Stunde. Bildschirm aus hält die JS-Timer auf beiden Plattformen an, beim
+  Einschalten feuert einmal nach (kein Nachhol-Sturm). Ein Event für
+  Uhr- oder Zeitzonensprünge existiert in RN nicht. Liefert außerdem
+  **31 konkrete Testfälle** plus eine Geräte-Checkliste.
 - **[04 — Welche Zeitwahl-Library?](issues/04-zeitwahl-library.md)** —
   `@react-native-community/datetimepicker` 9.1.0 (von Expo 56 gepinnt), immer
   `mode="time"`: auf Android imperativ als nativer Dialog, auf iOS als
@@ -114,8 +127,11 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
 - **Grenzen des Plans**: Gibt es eine sinnvolle Ober- oder Untergrenze für die
   Anzahl Abschnitte, und wie verhält sich die Liste, wenn sie länger wird als
   der Screen? Berührt Ticket 05 und 06, aber erst nach deren Auflösung scharf.
-- **Reise und Zeitzonenwechsel**: Was passiert, wenn das Gerät die Zeitzone
-  wechselt? Vermutlich fällt das aus Ticket 02 heraus.
+- **Zeitzonenwechsel als Restrisiko**: Ticket 02 hat den Fall geklärt — es gibt
+  kein Event, und wegen eines Caches in der JS-Engine greift ein Zeitzonen-
+  wechsel unter Umständen erst nach App-Neustart. Offen ist nur noch, ob das
+  für eine Uhr, die dauerhaft im selben Kinderzimmer steht, überhaupt
+  erwähnenswert ist oder stillschweigend akzeptiert wird.
 
 ## Out of scope
 
