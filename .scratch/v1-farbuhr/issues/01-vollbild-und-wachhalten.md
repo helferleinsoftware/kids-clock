@@ -1,7 +1,7 @@
 # 01 — Vollbild ohne System-Chrome und Wachhalten in Expo 56
 
 Type: research
-Status: open
+Status: resolved
 Blocked by: —
 Map: [map.md](../map.md)
 
