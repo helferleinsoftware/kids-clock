@@ -6,11 +6,17 @@ colour is driven entirely by the device's own clock.
 
 ## Language
 
+Discussion is in German, the German term is the one that binds. The English
+term in brackets is the same concept under the name it carries **in code** —
+identifiers, types and stored fields are English throughout.
+
 **Abschnitt** (Segment):
 A named colour that owns a stretch of the day, identified by the time of day it
 begins at. Segments tile the full 24 hours as a ring — each one runs until the
 next one begins, and the last one of the day wraps around midnight into the
-first.
+first. Its Startzeit _is_ its identity: no two Abschnitte can share one, and
+giving an Abschnitt a Startzeit that is already taken replaces the one that
+held it.
 _Avoid_: Zeitpunkt, event, alarm, trigger, schedule entry
 
 **Startzeit** (Start time):
@@ -21,11 +27,15 @@ _Avoid_: Zeitpunkt, timestamp, trigger time
 **Aktiver Abschnitt** (Active segment):
 The one Abschnitt whose colour the screen is currently showing: the last one
 whose Startzeit is at or before the current time, wrapping to the day's final
-Abschnitt for times before the first Startzeit.
+Abschnitt for times before the first Startzeit. An empty Plan has none — the
+only case in which there is no aktiver Abschnitt.
 
 **Plan**:
-The complete ordered ring of Abschnitte. There is exactly one Plan, it applies
-to every day alike, and it is the only thing the settings screen edits.
+The complete ring of Abschnitte. There is exactly one Plan, it applies to every
+day alike, and it is the only thing the settings screen edits. Its order is not
+a property of its own — it follows from the Startzeiten. A Plan may hold a
+single Abschnitt, whose colour then owns all 24 hours, and it may be empty,
+which is the state the app starts life in.
 _Avoid_: Schedule, timetable, profile
 
 **Farbfläche** (Colour surface):

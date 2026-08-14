@@ -58,8 +58,11 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   Ereignis; die Liste ist ein 24-Stunden-Ring, der über Mitternacht
   zurückwickelt. Begriff „Zeitpunkt" durch **Abschnitt** ersetzt.
   *(Grilling Runde 2 → [CONTEXT.md](../../CONTEXT.md))*
-- **Erststart** — die App liefert sinnvolle Vorgabe-Abschnitte mit (Richtung
-  19:00 rot / 07:00 grün), kein Onboarding-Flow. *(Grilling Runde 2)*
+- **Erststart** — leere Liste, **keine** Vorgabe-Abschnitte; der Settings-Screen
+  ist das Onboarding, weil er mit 0 Abschnitten nicht verlassen werden kann.
+  *(Grilling Runde 2, ersetzt in
+  [05 — Datenmodell des Plans](issues/05-datenmodell-und-kantenfaelle.md) —
+  die frühere Vorgabe 19:00 rot / 07:00 grün ist aufgehoben)*
 - **Keine Kindersicherung** — Long-Press in Standardlänge ist die einzige Tür zu
   den Settings, kein PIN und keine verlängerte Geste. *(Grilling Runde 2)*
 - **Testbarkeit** — Unit-Tests mit gemockter Uhr, kein Debug-Zeitraffer im
@@ -107,6 +110,22 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   die Entscheidung darf bis nach dem Prototyp warten. Wichtig für Ticket 05:
   der Wähler liefert technisch ein volles `Date`, gespeichert werden trotzdem
   nur Stunde und Minute.
+- **[05 — Datenmodell des Plans und seine Kantenfälle](issues/05-datenmodell-und-kantenfaelle.md)**
+  — ein Abschnitt ist `{ startMinute, name, color }`, **seine Startzeit ist
+  seine Identität** (keine ID): Speichern auf eine belegte Startzeit ersetzt den
+  bestehenden Abschnitt still, doppelte Startzeiten sind damit strukturell
+  unmöglich. `startMinute` ist `0…1439` — genau die Eingabe der reinen Funktion.
+  Der **leere Plan ist legal** und wird nicht verboten, sondern von einem Gate
+  abgefangen: mit 0 Abschnitten kann man die Settings nicht verlassen. Ein
+  einzelner Abschnitt bleibt zulässig (24 h eine Farbe), eine Obergrenze gibt es
+  nicht. Sortierung ist abgeleitet (aufsteigend ab 00:00), nie gespeichert.
+  Persistenz: ein Schlüssel `kids-clock/plan`, ein Dokument
+  `{ version: 1, segments: [...] }`, Version im Dokument statt im Schlüssel;
+  **jeder** Lesefehler verwirft das ganze Dokument und startet leer — billig,
+  weil der leere Plan legal ist. Code und Speicher sind **englisch**
+  (`Segment`, `Plan`, `activeSegment`), Prosa bleibt deutsch. Ticket 02 erbt
+  daraus eine neue Testgruppe für `parsePlan`; A9 wandert von der Logik in die
+  Validierung.
 
 ## Not yet specified
 
@@ -124,9 +143,6 @@ ist, bevor jemand die App baut — gebaut wird in eigenen Sessions danach.
   feststeht, welche Native-Module (Ticket 01, 03, 04) überhaupt drin sind.
 - **Repo-Grundgerüst**: TypeScript-Konfiguration, Linting, Wahl des Test-Runners.
   Fällt vermutlich beim Schreiben der Spec nebenbei ab.
-- **Grenzen des Plans**: Gibt es eine sinnvolle Ober- oder Untergrenze für die
-  Anzahl Abschnitte, und wie verhält sich die Liste, wenn sie länger wird als
-  der Screen? Berührt Ticket 05 und 06, aber erst nach deren Auflösung scharf.
 - **Zeitzonenwechsel als Restrisiko**: Ticket 02 hat den Fall geklärt — es gibt
   kein Event, und wegen eines Caches in der JS-Engine greift ein Zeitzonen-
   wechsel unter Umständen erst nach App-Neustart. Offen ist nur noch, ob das

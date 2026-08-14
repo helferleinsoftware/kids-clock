@@ -26,6 +26,21 @@ Zu klären:
 - **Zwei Screens per expo-router** ist gesetzt. Offen ist, ob das Bearbeiten
   eines einzelnen Abschnitts ein dritter Screen wird oder ein Modal.
 
+Nachgereicht aus [Ticket 05](05-datenmodell-und-kantenfaelle.md):
+
+- **Das Gate bei 0 Abschnitten**: Mit leerem Plan kann der Settings-Screen nicht
+  verlassen werden, und genau so sieht der Erststart aus. Deaktivierter
+  Zurück-Weg, Hinweistext, ein leerer Zustand mit Aufforderung — oder alles
+  zusammen?
+- **Umsortieren beim Bearbeiten**: Die Liste ist immer aufsteigend ab 00:00
+  sortiert. Sortiert sie sich **live** um, während die Zeit verstellt wird, oder
+  erst nach dem Bestätigen? (Der Eintrag, der unter dem Finger wegspringt.)
+- **Stilles Ersetzen**: Eine Zeit auf eine bereits belegte Startzeit zu stellen,
+  ersetzt den bestehenden Abschnitt ohne Rückfrage. Fühlt sich das im Prototyp
+  richtig an, oder braucht es doch eine Bestätigung?
+- **Lange Liste**: Es gibt keine Obergrenze für die Anzahl Abschnitte. Wie
+  verhält sich die Liste, wenn sie länger wird als der Screen?
+
 Vorgehen: mit `/prototype` ein bis zwei Wegwerf-Varianten bauen, als Asset vom
 Ticket verlinken, und **den Nutzer wählen lassen**. Nicht selbst entscheiden.
 
